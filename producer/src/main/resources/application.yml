@@ -1,0 +1,28 @@
+server:
+  port: 10086
+
+spring:
+  rabbitmq:
+    addresses: 127.0.0.1:5672
+    username: guest
+    password: guest
+    virtual-host: /
+    connection-timeout: 15000 #设置最大连接超时时间
+    publisher-returns: true  #开启发送失败回退
+    publisher-confirm-type: correlated
+    #开启ack
+    listener:
+      direct:
+        acknowledge-mode: manual
+        retry:
+          enabled: true
+          max-attempts: 3 #最大重试3次
+          initial-interval: 3000
+      simple:
+        max-concurrency: 100 #设置最大消费端数
+        acknowledge-mode: manual #自动签收auto  手动 manual
+        retry:
+          enabled: true
+          max-attempts: 3 #最大重试3次
+          initial-interval: 3000
+
